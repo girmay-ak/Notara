@@ -16,6 +16,8 @@ import type { NoteFormat, Language } from "@/lib/ai/schemas";
  */
 export const runtime = "nodejs";
 export const maxDuration = 120;
+// Keep PHI processing (audio → Whisper → Claude) in the EU.
+export const preferredRegion = "fra1";
 
 export async function POST(request: Request) {
   const user = await getUserFromRequest(request);
