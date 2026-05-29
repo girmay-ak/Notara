@@ -3,6 +3,7 @@ import { createClient as createJsClient } from "@supabase/supabase-js";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { createClient as createCookieClient } from "./server";
 import type { Database } from "./database.types";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config";
 
 /**
  * Resolve the authenticated user for a **route handler**, accepting EITHER:
@@ -18,11 +19,9 @@ export async function getUserFromRequest(request: Request): Promise<User | null>
 
   if (authHeader?.startsWith("Bearer ")) {
     const token = authHeader.slice("Bearer ".length).trim();
-    const supabase = createJsClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { auth: { autoRefreshToken: false, persistSession: false } },
-    );
+    const supabase = createJsClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
     const { data, error } = await supabase.auth.getUser(token);
     return error ? null : data.user;
   }
@@ -52,14 +51,10 @@ export async function getAuthedContext(
 
   if (authHeader?.startsWith("Bearer ")) {
     const token = authHeader.slice("Bearer ".length).trim();
-    const supabase = createJsClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        global: { headers: { Authorization: `Bearer ${token}` } },
-        auth: { autoRefreshToken: false, persistSession: false },
-      },
-    );
+    const supabase = createJsClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: { headers: { Authorization: `Bearer ${token}` } },
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
     const { data, error } = await supabase.auth.getUser(token);
     if (error || !data.user) return null;
     return {

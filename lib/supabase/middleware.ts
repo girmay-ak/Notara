@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "./database.types";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config";
 
 const APP_PREFIXES = ["/dashboard", "/record", "/notes", "/settings"];
 const AUTH_PREFIXES = ["/login", "/signup", "/reset"];
@@ -14,15 +15,9 @@ const AUTH_PREFIXES = ["/login", "/signup", "/reset"];
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  // Before env is configured (e.g. first deploy), don't crash — let public
-  // pages render. App routes still require a session at the page level.
-  if (!url || !anon) return response;
-
   const supabase = createServerClient<Database>(
-    url,
-    anon,
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
