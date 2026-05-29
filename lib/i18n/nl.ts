@@ -150,6 +150,7 @@ export const nl = {
       "We hebben een bevestigingslink gestuurd. Klik erop om je account te activeren.",
     errorGeneric: "Er ging iets mis. Probeer het opnieuw.",
     errorCredentials: "E-mailadres of wachtwoord onjuist.",
+    errorUnconfirmed: "Je account is nog niet bevestigd. Check je e-mail om het te activeren.",
     loading: "Even geduld…",
   },
 

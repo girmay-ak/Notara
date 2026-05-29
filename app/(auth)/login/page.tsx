@@ -26,7 +26,10 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      setError(t.errorCredentials);
+      const unconfirmed =
+        error.code === "email_not_confirmed" ||
+        /not confirmed/i.test(error.message);
+      setError(unconfirmed ? t.errorUnconfirmed : t.errorCredentials);
       return;
     }
     router.push("/dashboard");

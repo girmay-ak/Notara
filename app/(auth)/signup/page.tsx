@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MailCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ const professionOptions = Object.entries(nl.professions) as [
 
 export default function SignupPage() {
   const t = nl.auth;
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +33,7 @@ export default function SignupPage() {
     setError(null);
     setLoading(true);
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -46,6 +48,12 @@ export default function SignupPage() {
     setLoading(false);
     if (error) {
       setError(t.errorGeneric);
+      return;
+    }
+    // If email confirmation is off, signUp returns a session → go straight in.
+    if (data.session) {
+      router.push("/dashboard");
+      router.refresh();
       return;
     }
     setDone(true);
