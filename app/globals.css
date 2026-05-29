@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Notara design tokens — forest-green clinical system. */
+:root {
+  --radius: 0.875rem;
+
+  --background: #fbfdfc;
+  --foreground: #0f2a21;
+
+  --card: #ffffff;
+  --card-foreground: #0f2a21;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f2a21;
+
+  --primary: #1f4d3d;
+  --primary-foreground: #f0f7f2;
+
+  --secondary: #d6ead9;
+  --secondary-foreground: #1f4d3d;
+
+  --muted: #f0f7f2;
+  --muted-foreground: #5b6b62;
+
+  --accent: #d6ead9;
+  --accent-foreground: #1f4d3d;
+
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+
+  --border: #e4ece7;
+  --input: #e4ece7;
+  --ring: #2e7d58;
+
+  /* brand scale + amber accent */
+  --brand-50: #f0f7f2;
+  --brand-100: #d6ead9;
+  --brand-500: #2e7d58;
+  --brand-700: #1f4d3d;
+  --brand-900: #0f2a21;
+  --amber: #d9a441;
+  --amber-soft: #faecd0;
+}
+
+.dark {
+  --background: #0e1a14;
+  --foreground: #e9f5ee;
+
+  --card: #13261c;
+  --card-foreground: #e9f5ee;
+
+  --popover: #13261c;
+  --popover-foreground: #e9f5ee;
+
+  --primary: #3fa277;
+  --primary-foreground: #06120c;
+
+  --secondary: #1d3a2c;
+  --secondary-foreground: #d6ead9;
+
+  --muted: #13261c;
+  --muted-foreground: #9bb3a6;
+
+  --accent: #1d3a2c;
+  --accent-foreground: #d6ead9;
+
+  --destructive: #e0584f;
+  --destructive-foreground: #06120c;
+
+  --border: #1f3a2d;
+  --input: #1f3a2d;
+  --ring: #3fa277;
+
+  --brand-50: #0e1a14;
+  --brand-100: #13261c;
+  --brand-500: #3fa277;
+  --brand-700: #3fa277;
+  --brand-900: #e9f5ee;
+  --amber: #e0b463;
+  --amber-soft: #2a2113;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-500: var(--brand-500);
+  --color-brand-700: var(--brand-700);
+  --color-brand-900: var(--brand-900);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
