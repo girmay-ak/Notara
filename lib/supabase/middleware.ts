@@ -14,9 +14,15 @@ const AUTH_PREFIXES = ["/login", "/signup", "/reset"];
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
 
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Before env is configured (e.g. first deploy), don't crash — let public
+  // pages render. App routes still require a session at the page level.
+  if (!url || !anon) return response;
+
   const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    anon,
     {
       cookies: {
         getAll() {
