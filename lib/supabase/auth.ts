@@ -1,6 +1,6 @@
 import { createServerClient as createSSRClient } from "@supabase/ssr";
 import { createClient as createJsClient } from "@supabase/supabase-js";
-import type { User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { createClient as createCookieClient } from "./server";
 import type { Database } from "./database.types";
 
@@ -31,6 +31,50 @@ export async function getUserFromRequest(request: Request): Promise<User | null>
   const supabase = await createCookieClient();
   const { data, error } = await supabase.auth.getUser();
   return error ? null : data.user;
+}
+
+export interface AuthedContext {
+  user: User;
+  /** RLS-scoped client for the authenticated user (cookie or bearer). */
+  supabase: SupabaseClient<Database>;
+}
+
+/**
+ * Like `getUserFromRequest`, but also returns an RLS-scoped Supabase client so a
+ * route handler can read/write as the user — cookie (web) or Bearer (mobile).
+ * This keeps persistence in the endpoint, so a mobile client gets saved notes
+ * from the same call. Returns `null` when unauthenticated.
+ */
+export async function getAuthedContext(
+  request: Request,
+): Promise<AuthedContext | null> {
+  const authHeader = request.headers.get("authorization");
+
+  if (authHeader?.startsWith("Bearer ")) {
+    const token = authHeader.slice("Bearer ".length).trim();
+    const supabase = createJsClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        global: { headers: { Authorization: `Bearer ${token}` } },
+        auth: { autoRefreshToken: false, persistSession: false },
+      },
+    );
+    const { data, error } = await supabase.auth.getUser(token);
+    if (error || !data.user) return null;
+    return {
+      user: data.user,
+      supabase: supabase as unknown as SupabaseClient<Database>,
+    };
+  }
+
+  const supabase = await createCookieClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+  return {
+    user: data.user,
+    supabase: supabase as unknown as SupabaseClient<Database>,
+  };
 }
 
 /**

@@ -2,7 +2,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { NoteResult } from "@/components/features/notes/NoteResult";
-import { sampleNotes } from "@/lib/sample-notes";
+import { createClient } from "@/lib/supabase/server";
+import { formatDateTime, formatLabel } from "@/lib/format";
+import type { KngfNote, SoapNote } from "@/lib/ai/schemas";
+
+interface NoteDetail {
+  id: string;
+  format: "kngf" | "soap";
+  content: unknown;
+  created_at: string;
+}
 
 export default async function NoteDetailPage({
   params,
@@ -10,10 +19,16 @@ export default async function NoteDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const note = sampleNotes.find((n) => n.id === id);
-  if (!note) notFound();
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("notes")
+    .select("id, format, content, created_at")
+    .eq("id", id)
+    .single();
+  const note = data as NoteDetail | null;
+  if (!note || !note.content) notFound();
 
-  const title = `${note.format === "kngf" ? "SOEP" : "SOAP"}-notitie · ${note.when}`;
+  const title = `${formatLabel(note.format)}-notitie · ${formatDateTime(note.created_at)}`;
 
   return (
     <div>
@@ -23,7 +38,11 @@ export default async function NoteDetailPage({
       >
         <ChevronLeft className="size-4" /> Notities
       </Link>
-      <NoteResult content={note.content} format={note.format} title={title} />
+      <NoteResult
+        content={note.content as KngfNote | SoapNote}
+        format={note.format}
+        title={title}
+      />
     </div>
   );
 }

@@ -89,8 +89,22 @@ export const nl = {
     language: "Taal",
     privacy: "Privacy: audio wordt direct na transcriptie gewist",
     start: "Start opname",
+    recording: "Aan het opnemen…",
     stop: "Stop",
     cancel: "Annuleren",
+    requesting: "Microfoon openen…",
+    processing: "Je notitie wordt gemaakt…",
+    processingHint: "Transcriberen en structureren — dit duurt een paar seconden.",
+    retry: "Opnieuw proberen",
+    errors: {
+      mic_denied: "Microfoontoegang geweigerd. Sta hem toe in je browser-instellingen.",
+      mic_unavailable: "Geen microfoon gevonden.",
+      mic_error: "Kon de microfoon niet openen.",
+      recorder_unsupported: "Opnemen wordt niet ondersteund in deze browser.",
+      recording_too_short: "Opname te kort (minimaal een paar seconden).",
+      network: "Geen verbinding. Probeer het opnieuw.",
+      generic: "Er ging iets mis. Probeer het opnieuw.",
+    },
   },
 
   notes: {
