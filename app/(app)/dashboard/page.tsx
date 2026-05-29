@@ -3,6 +3,7 @@ import { Mic, AudioLines } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/server";
 import { nl } from "@/lib/i18n/nl";
 import { sampleNotes } from "@/lib/sample-notes";
 
@@ -15,10 +16,34 @@ function greeting() {
   return d.greetingLate;
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   const d = nl.dashboard;
-  const firstName = "Sarah"; // from profile once auth lands
-  const trialDays = 11;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data } = user
+    ? await supabase
+        .from("profiles")
+        .select("full_name, trial_ends_at")
+        .eq("id", user.id)
+        .single()
+    : { data: null };
+  const profile = data as {
+    full_name: string | null;
+    trial_ends_at: string | null;
+  } | null;
+
+  const firstName = (profile?.full_name ?? "").split(" ")[0] || "daar";
+  const trialDays = profile?.trial_ends_at
+    ? Math.max(
+        0,
+        Math.ceil(
+          (new Date(profile.trial_ends_at).getTime() - Date.now()) /
+            86_400_000,
+        ),
+      )
+    : 14;
 
   return (
     <div className="mx-auto max-w-5xl">

@@ -116,6 +116,37 @@ export const nl = {
     save: "Opslaan",
   },
 
+  auth: {
+    loginTitle: "Inloggen",
+    loginSubtitle: "Welkom terug bij Notara.",
+    signupTitle: "Account aanmaken",
+    signupSubtitle: "14 dagen gratis · geen creditcard nodig.",
+    email: "E-mailadres",
+    password: "Wachtwoord",
+    passwordHint: "Minimaal 10 tekens",
+    profession: "Beroep",
+    language: "Voorkeurstaal",
+    submitLogin: "Inloggen",
+    submitSignup: "Account aanmaken",
+    forgot: "Wachtwoord vergeten?",
+    toSignup: "Nog geen account? Registreren",
+    toLogin: "Al een account? Inloggen",
+    checkEmailTitle: "Check je e-mail",
+    checkEmailBody:
+      "We hebben een bevestigingslink gestuurd. Klik erop om je account te activeren.",
+    errorGeneric: "Er ging iets mis. Probeer het opnieuw.",
+    errorCredentials: "E-mailadres of wachtwoord onjuist.",
+    loading: "Even geduld…",
+  },
+
+  professions: {
+    physiotherapist: "Fysiotherapeut",
+    psychologist: "Psycholoog",
+    gp: "Huisarts",
+    coach: "Coach",
+    other: "Anders",
+  },
+
   common: {
     relativeHoursAgo: (n: number) => `${n} uur geleden`,
     yesterday: "Gisteren",

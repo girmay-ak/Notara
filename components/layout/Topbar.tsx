@@ -1,9 +1,7 @@
 import { Bell } from "lucide-react";
+import { LogoutButton } from "./LogoutButton";
 
-/**
- * Top bar. `user` is passed in by the (app) layout once auth is wired; for now
- * it accepts a display name + profession so the shell renders standalone.
- */
+/** Top bar with the signed-in user's name + profession and a logout control. */
 export function Topbar({
   name,
   profession,
@@ -12,7 +10,7 @@ export function Topbar({
   profession: string;
 }) {
   return (
-    <header className="flex h-16 items-center justify-end gap-4 border-b border-border px-4 md:px-8">
+    <header className="flex h-16 items-center justify-end gap-3 border-b border-border px-4 md:px-8">
       <button
         type="button"
         aria-label="Meldingen"
@@ -20,6 +18,7 @@ export function Topbar({
       >
         <Bell className="size-5" />
       </button>
+      <LogoutButton />
       <div className="flex items-center gap-3">
         <div className="text-right leading-tight">
           <div className="text-sm font-medium text-foreground">{name}</div>
