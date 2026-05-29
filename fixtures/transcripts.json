@@ -1,0 +1,26 @@
+[
+  {
+    "id": "kngf-knie-01",
+    "format": "kngf",
+    "language": "nl",
+    "profession": "physiotherapist",
+    "note": "Standaard knie-revalidatie, redelijk compleet transcript.",
+    "transcript": "Mevrouw kwam vandaag voor de derde behandeling van haar rechterknie. Ze geeft aan dat de pijn is afgenomen van een zeven naar een vier op de NPRS. Ze kan nu de trap weer af zonder de leuning vast te houden, maar traplopen omhoog geeft nog wat klachten. Bij onderzoek zag ik dat de flexie verbeterd is naar ongeveer honderdtwintig graden, extensie is volledig. Er is nog lichte zwelling aan de mediale zijde. De quadriceps voelt nog wat zwak aan rechts vergeleken met links. Ik heb vandaag oefentherapie gedaan, gericht op quadricepsversterking met leg extensions en step-ups, en daarna vijftien minuten fietsen. Ze gaat thuis de oefeningen drie keer per dag doen. We hebben afgesproken dat ze over een week terugkomt. De behandeling verloopt volgens verwachting, de functionele vooruitgang is goed."
+  },
+  {
+    "id": "kngf-rug-sparse-02",
+    "format": "kngf",
+    "language": "nl",
+    "profession": "physiotherapist",
+    "note": "Spaars transcript — test of ontbrekende velden netjes null worden en er niets verzonnen wordt.",
+    "transcript": "Meneer had vandaag last van zijn onderrug na het tillen van een zware doos gisteren. We hebben wat mobiliserende oefeningen gedaan en ik heb hem uitleg gegeven over een goede tilhouding. Volgende week komt hij terug."
+  },
+  {
+    "id": "soap-shoulder-01",
+    "format": "soap",
+    "language": "en",
+    "profession": "physiotherapist",
+    "note": "English SOAP, shoulder rehab.",
+    "transcript": "Patient returned for follow-up on the left shoulder. Reports pain has decreased from eight to about five out of ten, mostly bothering at night. Range of motion in abduction has improved to around one hundred and thirty degrees, still limited by pain at end range. External rotation is full. No signs of impingement on testing today. We performed rotator cuff strengthening with resistance bands and scapular stabilization exercises. Patient will continue the home program twice daily. Follow up in two weeks. Progress is steady and in line with expectations."
+  }
+]
