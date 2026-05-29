@@ -66,15 +66,15 @@ Priority: **M** = must (v1 blocker), **S** = should, **C** = could.
 ### Epic C — Data & history
 | ID | Feature | Pri | Requirements |
 |---|---|---|---|
-| C1 | Notes list | M | User's notes, newest first; filter by patient/date/format; pagination via URL state. |
+| C1 | Notes list | M | User's notes, newest first; filter by date/format; pagination via URL state. |
 | C2 | Note detail | M | View a saved note; editable while fresh, read-only after 24h (encourages paste-to-EPD discipline). |
-| C3 | Patients | S | Pseudonymous (display_name like "Mw. Jansen 1972"; **no DOB/BSN**). Create/edit/archive. |
-| C4 | Link note ↔ patient | S | Optional patient selection on the record screen. |
+| C3 | Patients | **v1.1** | *Deferred.* Pseudonymous (display_name like "Mw. Jansen 1972"; **no DOB/BSN**). Create/edit/archive. Notes table keeps a nullable `patient_id` so this drops in cleanly later. |
+| C4 | Link note ↔ patient | **v1.1** | *Deferred.* Optional patient selection on the record screen. |
 
 ### Epic D — Billing & trial
 | ID | Feature | Pri | Requirements |
 |---|---|---|---|
-| D1 | 14-day trial | M | Enforced in-app (no card upfront). Set on signup. |
+| D1 | 14-day trial | M | **Card-free** (decided): enforced in-app, no card upfront. Set on signup. Watch conversion — A/B test card-required only if <5% at ~50 users. |
 | D2 | Checkout | M | Stripe Checkout (hosted), monthly €29 / annual €249, Stripe Tax (BTW 21% incl.), locale nl. |
 | D3 | Webhook sync | M | Raw-body, signature-verified; handle checkout.session.completed, subscription.created/updated/deleted, invoice.payment_succeeded/failed. Idempotency via `stripe_events`. |
 | D4 | Customer Portal | M | Cancel / update card / invoices. |
@@ -139,7 +139,7 @@ per-operation policies, `user_id` indexed. Apply via Supabase migrations.
 | **M1** | v0.1 prototype | Password gate + record→note→copy single page, deployed to Vercel | 3–5 physios use a live URL; ≥3 want it weekly |
 | **M2** | Foundation | Supabase project + schema + RLS; auth (A1–A5); app shell (G2–G4); i18n (G3); landing (G1) | Real user signs up, verifies, sees dashboard |
 | **M3** | Core loop in-app | B1–B8 wired to Storage + DB; notes saved | End-to-end on Chrome + iPhone Safari |
-| **M4** | History & patients | C1–C4; settings E1–E3 | A user can manage notes & patients |
+| **M4** | History & settings | C1–C2; settings E1–E3 | A user can browse & manage their notes (patients deferred to v1.1) |
 | **M5** | Billing | D1–D5; security headers F6; audio deletion F5 | A stranger can pay €29 |
 | **M6** | Compliance & launch | F1–F4; legal review; empty/error states; a11y pass | Public soft launch |
 
@@ -153,8 +153,8 @@ KNGF/SOEP or SOAP note → edit & copy it → manage patients and history → st
 RLS-protected, audio is deleted after transcription, and the privacy/terms/DPA/
 subprocessor pages are published (lawyer-reviewed).
 
-## Open decisions (for you)
-1. **Trial:** card-free (more signups, more freeloaders) vs card-required. *Default: card-free.*
-2. **Patients in v1.0** (Epic C3/C4) — include, or defer to v1.1? *Recommend include (light).*
-3. **Dark mode** (G6) — v1 or later? *Recommend later.*
-4. **Email** — Supabase default for v1, add Resend post-launch? *Recommend yes.*
+## Decisions (resolved)
+1. **Trial:** ✅ **Card-free.** No card upfront; monitor conversion.
+2. **Patients (Epic C3/C4):** ✅ **Deferred to v1.1.** v1.0 ships notes-only history. `notes.patient_id` stays nullable so it slots in later with no migration pain.
+3. **Dark mode (G6):** ✅ **Later** (post-launch).
+4. **Email:** ✅ Supabase default emails for v1.0; add Resend post-launch.
